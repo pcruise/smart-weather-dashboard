@@ -26,7 +26,12 @@ export interface CurrentWeather extends BaseResponseWeatherData {
   feels_like: number;
   sunrise: number;
   sunset: number;
-  rain: number;
+  rain: {
+    "1h": number;
+  };
+  snow: {
+    "1h": number;
+  };
 }
 
 export interface HourlyWeather extends BaseResponseWeatherData {
@@ -34,6 +39,12 @@ export interface HourlyWeather extends BaseResponseWeatherData {
   feels_like: number;
   wind_gust: number;
   pop: number;
+  rain: {
+    "1h": number;
+  };
+  snow: {
+    "1h": number;
+  };
 }
 
 export interface DailyWeather

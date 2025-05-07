@@ -8,7 +8,7 @@ import { OpenWeatherMapResponse } from "./api/weather/weather.types";
 import { WeatherWithPercentBox } from "@/components/weather/WeatherWithPercentBox";
 import { WeatherWithTextBox } from "@/components/weather/WeatherWithTextBox";
 import { DailyWeatherBox } from "@/components/weather/DailyWeatherBox";
-import { weekKor } from "@/lib/dateUtil";
+import { getHeaderDateTextFromDt, weekKor } from "@/lib/dateUtil";
 
 export default function WeatherDashboard() {
   const [weatherData, setWeatherData] = useState<OpenWeatherMapResponse>();
@@ -48,7 +48,11 @@ export default function WeatherDashboard() {
       <header className="w-full flex justify-between">
         <span className="text-xl/10">Weather Dashboard</span>
         <div className="flex right text-sm/10">
-          {weekKor[new Date().getDay()]}요일 / {new Date().toLocaleDateString()}
+          {isLoading || !weatherData ? (
+            <Skeleton />
+          ) : (
+            getHeaderDateTextFromDt(weatherData.current.dt)
+          )}
         </div>
       </header>
       <section className="grid grid-cols-1 lg:grid-cols-2 grid-rows-[repeat(5,minmax(0,1fr))] lg:grid-rows-[auto_auto_auto] gap-4 w-full">
@@ -69,7 +73,7 @@ export default function WeatherDashboard() {
           <div className="flex-1 justify-between bg-white/80 min-h-30 p-6 rounded-xl">
             <div className="pb-3">강수확률</div>
             <WeatherWithPercentBox
-              value={weatherData && (weatherData.current.rain || 0)}
+              value={weatherData?.current?.rain?.["1h"] || 0}
               isLoading={isLoading}
             />
           </div>

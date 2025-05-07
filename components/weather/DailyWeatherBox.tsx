@@ -24,8 +24,10 @@ export function DailyWeatherBox({
 
   return (
     <div className="grid grid-cols-7 justify-between divide-x divide-gray-200">
-      {dailyData.slice(1, 8).map((weather) => {
-        return <DailyWeatherItem data={weather} />;
+      {dailyData.slice(1, 8).map((weather, idx) => {
+        return (
+          <DailyWeatherItem data={weather} key={`daily-weather-box-${idx}`} />
+        );
       })}
     </div>
   );
