@@ -8,7 +8,7 @@ import { OpenWeatherMapResponse } from "./api/weather/weather.types";
 import { WeatherWithPercentBox } from "@/components/weather/WeatherWithPercentBox";
 import { WeatherWithTextBox } from "@/components/weather/WeatherWithTextBox";
 import { DailyWeatherBox } from "@/components/weather/DailyWeatherBox";
-import { getHeaderDateTextFromDt, weekKor } from "@/lib/dateUtil";
+import { getHeaderDateTextFromDt } from "@/lib/dateUtil";
 
 export default function WeatherDashboard() {
   const [weatherData, setWeatherData] = useState<OpenWeatherMapResponse>();
