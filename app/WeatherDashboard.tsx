@@ -11,8 +11,13 @@ import { DailyWeatherBox } from "@/components/weather/DailyWeatherBox";
 import { getHeaderDateTextFromDt } from "@/lib/dateUtil";
 
 export default function WeatherDashboard() {
-  const [weatherData, setWeatherData] = useState<OpenWeatherMapResponse>();
   const [isLoading, setIsLoading] = useState(true);
+  const [isLoadingOutfitSuggestion, setisLoadingOutfitSuggestion] =
+    useState(true);
+
+  const [weatherData, setWeatherData] = useState<OpenWeatherMapResponse>();
+  const [outfitSuggestionMessage, setOutfitSuggestionMessage] =
+    useState<string>();
 
   useEffect(() => {
     // 페이지 로드 후 현재 위치 불러오기
@@ -41,7 +46,35 @@ export default function WeatherDashboard() {
           });
       }
     );
-  }, []);
+  }, []); // 위치 변경 시 다시 이 구문을 호출하는 부분 추가
+
+  useEffect(() => {
+    if (!weatherData || isLoading) {
+      return;
+    }
+
+    // API 호출
+    const res = fetch(`/api/gemini`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ weatherData }),
+    })
+      .then((r) => r.json())
+      .then((res) => {
+        if (!res) {
+          throw new Error("Invalid data");
+        }
+
+        setOutfitSuggestionMessage(res);
+        setisLoadingOutfitSuggestion(false);
+      })
+      .catch((r) => {
+        // 오류처리
+        console.log(r);
+      });
+  }, [weatherData]);
 
   return (
     <main className="flex-grow flex flex-col items-center justify-center min-w-lg font-semibold">
@@ -91,8 +124,8 @@ export default function WeatherDashboard() {
           <div className="pb-3">오늘의 복장 추천</div>
           {
             <WeatherWithTextBox
-              value={"대충 아주 멋진 복장 추천 문구 (임시)"}
-              isLoading={isLoading}
+              value={outfitSuggestionMessage}
+              isLoading={isLoadingOutfitSuggestion}
             />
           }
         </div>

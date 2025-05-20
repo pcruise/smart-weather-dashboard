@@ -16,7 +16,7 @@ export async function GET(req: NextRequest) {
 
   // openweather 3.0 API 호출
   const res = await fetch(
-    `${API_URL}?lat=${lat}&lon=${lon}&appid=${process.env.NEXT_PUBLIC_WEATHER_API_KEY}&units=metric&lang=kr&exclude=minutely`,
+    `${API_URL}?lat=${lat}&lon=${lon}&appid=${process.env.WEATHER_API_KEY}&units=metric&lang=kr&exclude=minutely`,
     {
       next: {
         revalidate: 3600, // 캐싱

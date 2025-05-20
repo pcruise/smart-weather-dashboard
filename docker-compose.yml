@@ -4,8 +4,6 @@ services:
     build: .
     ports:
       - "3000:3000"
-    environment:
-      - NEXT_PUBLIC_WEATHER_API_KEY=7e2b87ceb8bae9f172e4a1f1cc9d01bb
     volumes:
       - .:/app
       - /app/node_modules
