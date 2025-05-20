@@ -71,11 +71,11 @@ export async function POST(req: NextRequest) {
 // dt 값 제거 헬퍼 함수
 const removeDtField = (
   data: CurrentWeather | HourlyWeather[] | DailyWeather[]
-) => {
-  if (Array.isArray(data)) {
-    return data.map(({ dt, ...rest }) => rest);
-  }
+) => (Array.isArray(data) ? data.map(removeDt) : removeDt(data));
 
-  const { dt, ...rest } = data;
+const removeDt = (
+  item: CurrentWeather | HourlyWeather | DailyWeather
+): Omit<CurrentWeather | HourlyWeather | DailyWeather, "dt"> => {
+  const { dt: _dt, ...rest } = item;
   return rest;
 };

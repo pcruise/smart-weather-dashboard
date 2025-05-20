@@ -54,7 +54,7 @@ export default function WeatherDashboard() {
     }
 
     // API 호출
-    const res = fetch(`/api/gemini`, {
+    fetch(`/api/gemini`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -74,7 +74,7 @@ export default function WeatherDashboard() {
         // 오류처리
         console.log(r);
       });
-  }, [weatherData]);
+  }, [weatherData, isLoading]);
 
   return (
     <main className="flex-grow flex flex-col items-center justify-center min-w-lg font-semibold">
