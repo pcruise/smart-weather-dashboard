@@ -2,8 +2,9 @@ import Image from "next/image";
 import WeatherDashboard from "./WeatherDashboard";
 
 export default function Home() {
+  // 다크모드 대응 임시로 text-black 추가
   return (
-    <div className="flex flex-col bg-linear-to-t from-sky-300/70 to-sky-100 items-center justify-center min-h-screen font-[family-name:var(--font-geist-sans)] py-4 px-4">
+    <div className="flex flex-col bg-linear-to-t from-sky-300/70 to-sky-100 items-center justify-center min-h-screen font-[family-name:var(--font-geist-sans)] py-4 px-4 text-black">
       <WeatherDashboard />
       <footer className="flex w-full flex-col lg:flex-row items-center justify-center pt-12 gap-2 lg:gap-6">
         <span className="text-sm">
