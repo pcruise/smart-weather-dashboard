@@ -1,6 +1,5 @@
 import { OpenWeatherMapResponse } from "@/app/api/weather/weather.types";
 import Image from "next/image";
-import Skeleton from "react-loading-skeleton";
 
 export function MainWeather({
   data,
