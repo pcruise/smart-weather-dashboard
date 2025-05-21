@@ -10,12 +10,16 @@ export function WeatherWithPercentBox({
   unit?: string;
 }) {
   if (isLoading || value === undefined) {
-    return <Skeleton className="h-10" />;
+    return (
+      <div className="leading-none">
+        <Skeleton className="h-8" />
+      </div>
+    );
   }
 
   return (
-    <div className="text-2xl text-center">
-      {value.toFixed(1)}
+    <div className="text-2xl text-left h-8">
+      {value}
       {unit || "%"}
     </div>
   );

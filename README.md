@@ -1,36 +1,30 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Smart Weather Dashboard
 
-## Getting Started
+패션과 날씨에 무심한 개발자 혹은 옷을 준비하며 날씨를 간단히 확인하려고 하는 사용자를 위해 사용자 현재 위치를 기반으로 실시간 날씨와 AI 기반 복장 추천을 제공하는 날씨 대시보드입니다.
 
-First, run the development server:
+<!-- ![screenshot](./public/screenshot.png) 스크린샷 -->
+
+## 주요 기능
+
+- **위치 기반 날씨 정보** (OpenWeather API)
+- **Gemini AI 복장 추천** (Google GenAI 사용)
+- **Redis 캐시** API 비용 및 응답 속도 최적화
+- 반응형 UI 및 Skeleton 기반 로딩 UX
+
+## 기술 스택
+
+- **Next.js 15** (App Router)
+- **TypeScript**, **React 19**
+- **Tailwind CSS 4**
+- **Redis** (캐싱 용도)
+- **Google GenAI (Gemini 2.0 Flash)**
+
+## 실행 방법
 
 ```bash
+# 패키지 설치
+npm install
+
+# 개발 서버 실행
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

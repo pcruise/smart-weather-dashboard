@@ -8,7 +8,7 @@ import { OpenWeatherMapResponse } from "./api/weather/weather.types";
 import { WeatherWithPercentBox } from "@/components/weather/WeatherWithPercentBox";
 import { WeatherWithTextBox } from "@/components/weather/WeatherWithTextBox";
 import { DailyWeatherBox } from "@/components/weather/DailyWeatherBox";
-import { getHeaderDateTextFromDt } from "@/lib/dateUtil";
+import { getDateFromOpenweathermapDt, getHeaderDateText } from "@/lib/dateUtil";
 
 export default function WeatherDashboard() {
   const [isLoading, setIsLoading] = useState(true);
@@ -77,60 +77,72 @@ export default function WeatherDashboard() {
   }, [weatherData, isLoading]);
 
   return (
-    <main className="flex-grow flex flex-col items-center justify-center min-w-lg font-semibold">
+    <main className="flex-grow flex flex-col items-center justify-center w-full lg:w-lg font-semibold">
       <header className="w-full flex justify-between">
-        <span className="text-xl/10">Weather Dashboard</span>
+        <span
+          className="text-xl/10"
+          onClick={() => {
+            setIsLoading(!isLoading);
+            setisLoadingOutfitSuggestion(!isLoadingOutfitSuggestion);
+          }}
+        >
+          Weather Dashboard
+        </span>
         <div className="flex right text-sm/10">
-          {isLoading || !weatherData ? (
-            <Skeleton />
-          ) : (
-            getHeaderDateTextFromDt(weatherData.current.dt)
+          {getHeaderDateText(
+            isLoading || !weatherData
+              ? new Date()
+              : getDateFromOpenweathermapDt(weatherData.current.dt)
           )}
         </div>
       </header>
-      <section className="grid grid-cols-1 lg:grid-cols-2 grid-rows-[repeat(5,minmax(0,1fr))] lg:grid-rows-[auto_auto_auto] gap-4 w-full">
-        <div className="flex flex-col bg-white/80 min-h-60 rounded-xl p-6 row-span-2 lg:col-span-1">
-          <div className="flex">날씨</div>
+      {/* grid-rows-[repeat(5,minmax(0,1fr))] lg:grid-rows-[auto_auto_auto] */}
+      <section className="grid grid-cols-2 lg:grid-cols-4 gap-4 w-full">
+        <div className="flex flex-col bg-white/80 min-h-60 rounded-xl p-6 row-span-2 col-span-2 lg:col-span-2">
+          <div className="absolute">날씨</div>
           <div className="flex flex-grow justify-center items-center">
             <MainWeather data={weatherData} isLoading={isLoading} />
           </div>
         </div>
-        <div className="flex flex-row lg:col-start-2 lg:row-start-1 gap-4">
-          <div className="flex-1 justify-between bg-white/80 min-h-30 p-6 rounded-xl">
-            <div className="pb-3">습도</div>
-            <WeatherWithPercentBox
-              value={weatherData && weatherData.current.humidity}
-              isLoading={isLoading}
-            />
-          </div>
-          <div className="flex-1 justify-between bg-white/80 min-h-30 p-6 rounded-xl">
-            <div className="pb-3">강수확률</div>
-            <WeatherWithPercentBox
-              value={weatherData?.current?.rain?.["1h"] || 0}
-              isLoading={isLoading}
-            />
-          </div>
+        <div className="bg-white/80 p-6 rounded-xl min-h-30">
+          <div className="pb-3">습도</div>
+          <WeatherWithPercentBox
+            value={weatherData && weatherData.current.humidity}
+            isLoading={isLoading}
+          />
         </div>
-        <div className="bg-white/80 min-h-30 p-6 rounded-xl lg:col-start-2 lg:row-start-2">
+        <div className="bg-white/80 p-6 rounded-xl min-h-30">
+          <div className="pb-3">강수확률</div>
+          <WeatherWithPercentBox
+            value={
+              typeof weatherData?.hourly[24]?.pop === "number"
+                ? weatherData.hourly[24].pop * 100
+                : 0
+            }
+            isLoading={isLoading}
+          />
+        </div>
+        <div className="bg-white/80 p-6 rounded-xl min-h-30 col-span-2">
           <div className="pb-3">미세먼지</div>
-          {
-            <WeatherWithTextBox
-              value={"매우 좋음 (임시)"}
-              isLoading={isLoading}
-            />
-          }
+          <WeatherWithTextBox
+            value={"매우 좋음 (임시)"}
+            isLoading={isLoading}
+          />
         </div>
-        <div className="bg-white/80 min-h-30 p-6 rounded-xl col-span-2">
+        <div className="bg-white/80 p-6 min-h-30 rounded-xl col-span-2 lg:col-span-4">
           <div className="pb-3">오늘의 복장 추천</div>
-          {
-            <WeatherWithTextBox
-              value={outfitSuggestionMessage}
-              isLoading={isLoadingOutfitSuggestion}
-            />
-          }
+          <WeatherWithTextBox
+            skeletonLines={4}
+            value={outfitSuggestionMessage}
+            isLoading={isLoadingOutfitSuggestion}
+          />
         </div>
-        <div className="bg-white/80 min-h-30 py-4 px-2 rounded-2xl col-span-2">
-          <DailyWeatherBox data={weatherData} isLoading={isLoading} />
+        <div className="bg-white/80 h-30 flex flex-col justify-center px-2 rounded-2xl col-span-2 lg:col-span-4">
+          {isLoading || !weatherData ? (
+            <Skeleton height={86} />
+          ) : (
+            <DailyWeatherBox data={weatherData} isLoading={isLoading} />
+          )}
         </div>
       </section>
     </main>

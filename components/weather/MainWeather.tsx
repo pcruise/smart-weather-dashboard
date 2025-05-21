@@ -10,23 +10,19 @@ export function MainWeather({
   isLoading: boolean;
 }) {
   if (isLoading || !data) {
-    return (
-      <div className="flex flex-grow justify-center items-center">
-        <Skeleton circle className="w-36 h-36" />
-      </div>
-    );
+    return <div className="flex"></div>;
   }
 
   const currentData = data.current;
 
   return (
     <div className="flex flex-col items-center">
-      <div className="-mb-5 -mt-5">
+      <div className="-mb-5">
         <Image
           width="150"
           height="150"
           src={`https://openweathermap.org/img/wn/${currentData.weather[0].icon}@4x.png`}
-          alt="data.current.weather[0].description"
+          alt={data.current.weather[0].description}
         />
       </div>
       <div className="text-3xl">{currentData.temp.toFixed(1)}°C</div>

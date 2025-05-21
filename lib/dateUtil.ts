@@ -3,9 +3,8 @@ export function getDateFromOpenweathermapDt(dt: number) {
   return new Date(dt * 1000);
 }
 
-export function getHeaderDateTextFromDt(dt: number) {
-  const date = getDateFromOpenweathermapDt(dt);
-  return `${weekKor[date.getDay()]}요일 / ${date.toLocaleDateString()}`;
+export function getHeaderDateText(inp: Date) {
+  return `${weekKor[inp.getDay()]}요일 / ${inp.toLocaleDateString()}`;
 }
 
 // Date.getDay 사용할 매핑값

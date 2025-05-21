@@ -46,7 +46,7 @@ function DailyWeatherItem({ data }: { data: DailyWeather }) {
           width="50"
           height="50"
           src={`https://openweathermap.org/img/wn/${data.weather[0].icon}@4x.png`}
-          alt="data.current.weather[0].description"
+          alt={data.weather[0].description}
         />
       </div>
       <div className="text-sm text-center">{data.temp.day.toFixed(0)}°C</div>
