@@ -3,8 +3,8 @@ import {
   OpenWeatherMapResponse,
 } from "@/app/api/weather/weather.types";
 import { getDateFromOpenweathermapDt, weekKor } from "@/lib/dateUtil";
-import Image from "next/image";
 import Skeleton from "react-loading-skeleton";
+import { WeatherConditionIcon } from "../common";
 
 export function DailyWeatherBox({
   data,
@@ -41,13 +41,7 @@ function DailyWeatherItem({ data }: { data: DailyWeather }) {
         {weekKor[getDateFromOpenweathermapDt(data.dt).getDay()]}
       </div>
       <div className="-mb-1 -mt-1">
-        <Image
-          className="m-auto"
-          width="50"
-          height="50"
-          src={`https://openweathermap.org/img/wn/${data.weather[0].icon}@4x.png`}
-          alt={data.weather[0].description}
-        />
+        <WeatherConditionIcon weather={data.weather[0]} size={50} />
       </div>
       <div className="text-sm text-center">{data.temp.day.toFixed(0)}°C</div>
     </div>

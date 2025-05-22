@@ -1,5 +1,6 @@
 import { OpenWeatherMapResponse } from "@/app/api/weather/weather.types";
-import Image from "next/image";
+import { getWeatherDescription } from "@/lib/openWeatherUtils";
+import { WeatherConditionIcon } from "../common";
 
 export function MainWeather({
   data,
@@ -8,26 +9,23 @@ export function MainWeather({
   data?: OpenWeatherMapResponse;
   isLoading: boolean;
 }) {
+  // 로딩중일 때 빈 박스 출력
   if (isLoading || !data) {
     return <div className="flex"></div>;
   }
 
   const currentData = data.current;
+  const currentWeatherDescription = getWeatherDescription(
+    currentData.weather[0]
+  );
 
   return (
     <div className="flex flex-col items-center">
       <div className="-mb-5">
-        <Image
-          width="150"
-          height="150"
-          src={`https://openweathermap.org/img/wn/${currentData.weather[0].icon}@4x.png`}
-          alt={data.current.weather[0].description}
-        />
+        <WeatherConditionIcon weather={currentData.weather[0]} size={150} />
       </div>
       <div className="text-3xl">{currentData.temp.toFixed(1)}°C</div>
-      <div className="text-sm text-gray-500">
-        {currentData.weather[0].description}
-      </div>
+      <div className="text-sm text-gray-500">{currentWeatherDescription}</div>
       <div className="text-sm text-gray-500">
         체감온도 {currentData.feels_like.toFixed(1)}°C
       </div>

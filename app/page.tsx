@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <div className="flex flex-col bg-linear-to-t from-sky-300/70 to-sky-100 items-center justify-center min-h-screen font-[family-name:var(--font-geist-sans)] py-4 px-4 text-black">
       <WeatherDashboard />
-      <footer className="flex w-full flex-col lg:flex-row items-center justify-center pt-12 gap-2 lg:gap-6">
+      <footer className="flex w-full flex-col sm:flex-row items-center justify-center pt-12 gap-2 sm:gap-6">
         <span className="text-sm">
           <b className="font-semibold">정보 출처</b> - OpenWeather, 한국환경공단
           에어코리아

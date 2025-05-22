@@ -1,0 +1,25 @@
+import { NextRequest, NextResponse } from "next/server";
+import { getNerbyStationName } from "./getNearbyStationName";
+import { getAirPollutionInfo } from "./getAirPollutionInfo";
+
+// lat, lon 좌표를 받아서 해당 좌표에 가장 가까운 대기 품질 측정소의 측정값을 가져옵니다.
+export async function GET(req: NextRequest) {
+  const { searchParams } = new URL(req.url);
+  const lat = Number(searchParams.get("lat"));
+  const lon = Number(searchParams.get("lon"));
+
+  // 값이 없거나 NaN 확인
+  if (!lat || !lon) {
+    return NextResponse.json(
+      { error: "위치 정보에 문제가 있습니다." },
+      { status: 400 }
+    );
+  }
+
+  // 좌표를 통해 가장 가까운 측정소 이름 조회
+  const stationName = await getNerbyStationName(Number(lat), Number(lon));
+  // 측정소 이름을 통해 대기오염정보 조회
+  const pollutionData = await getAirPollutionInfo(stationName);
+
+  return NextResponse.json(pollutionData);
+}
