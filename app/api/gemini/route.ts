@@ -1,6 +1,6 @@
 import redis from "@/lib/redis";
 import { NextRequest, NextResponse } from "next/server";
-import { OpenWeatherMapResponse } from "../weather/weather.types";
+import { OpenWeatherMapResponse } from "../weather/schema";
 import { getOutfitSuggestion } from "./getOutfitSuggestion";
 
 // 결과값 1시간 캐시, 개발 환경에서는 1분

@@ -5,10 +5,10 @@ export function TextBoxWithLoader({
   value,
   skeletonLines,
   isLoading,
-  style,
+  styleClassName,
 }: {
   value?: string;
-  style?: string;
+  styleClassName?: string;
   skeletonLines?: number;
   isLoading: boolean;
 }) {
@@ -24,11 +24,11 @@ export function TextBoxWithLoader({
     );
   }
 
-  // 추가 스타일 입력 시 기존 스타일 문자열 뒤에 붙이는 방식으로 추가
+  // 추가 스타일 (Tailwind) 입력 시 기존 스타일 문자열 뒤에 붙이는 방식으로 추가
   return (
     <div
       className={`text-2xl font-normal whitespace-pre-line min-h-8${
-        style ? " " + style : ""
+        styleClassName ? " " + styleClassName : ""
       }`}
     >
       {value}

@@ -11,10 +11,11 @@ import {
   fetchWeather,
   UserPosition,
 } from "@/lib/apiClient";
-import { getDateFromOpenweathermapDt, getHeaderDateText } from "@/lib/dateUtil";
+import { getHeaderDateText } from "@/lib/dateUtil";
 import { useEffect, useState } from "react";
 import { AirPollutionData } from "./api/airPollution/schema";
-import { OpenWeatherMapResponse } from "./api/weather/weather.types";
+import { getDateFromOpenweathermapDt } from "@/lib/openWeatherUtil";
+import { OpenWeatherMapResponse } from "./api/weather/schema";
 
 const DEFAULT_COORDS: UserPosition = {
   lat: 37.559517,
@@ -133,7 +134,7 @@ export default function WeatherDashboard() {
         <div className="bg-white/80 p-6 rounded-xl min-h-30">
           <div className="pb-3">강수확률</div>
           <TextBoxWithLoader
-            style="font-semibold"
+            styleClassName="font-semibold"
             value={getRainPop(weatherData)}
             isLoading={loadingState.weather}
           />

@@ -1,10 +1,8 @@
-import {
-  DailyWeather,
-  OpenWeatherMapResponse,
-} from "@/app/api/weather/weather.types";
-import { getDateFromOpenweathermapDt, weekKor } from "@/lib/dateUtil";
+import { getWeekKor } from "@/lib/dateUtil";
 import Skeleton from "react-loading-skeleton";
 import { WeatherConditionIcon } from "../common";
+import { getDateFromOpenweathermapDt } from "@/lib/openWeatherUtil";
+import { DailyWeather, OpenWeatherMapResponse } from "@/app/api/weather/schema";
 
 export function DailyWeatherBox({
   data,
@@ -38,7 +36,7 @@ function DailyWeatherItem({ data }: { data: DailyWeather }) {
   return (
     <div className="flex flex-col">
       <div className="text-center">
-        {weekKor[getDateFromOpenweathermapDt(data.dt).getDay()]}
+        {getWeekKor(getDateFromOpenweathermapDt(data.dt))}
       </div>
       <div className="-mb-1 -mt-1">
         <WeatherConditionIcon weather={data.weather[0]} size={50} />

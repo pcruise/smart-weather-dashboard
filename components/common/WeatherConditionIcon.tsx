@@ -1,9 +1,11 @@
-import { WeatherInfo } from "@/app/api/weather/weather.types";
-import { getWeatherDescription } from "@/lib/openWeatherUtils";
+import { WeatherInfo } from "@/app/api/weather/schema";
+import { getWeatherDescription } from "@/lib/openWeatherUtil";
 import Image from "next/image";
 
-const NOT_GRAYSCALE_ICONS = ["01d", "01n", "13d", "13n", "50d", "50n"];
+const NOT_GRAYSCALE_ICONS = ["01n", "13d", "13n", "50d", "50n"];
+const SUN_ICON = "01d";
 
+// OpenWeatherMap API 날씨 아이콘 출력
 export function WeatherConditionIcon({
   weather,
   size,
@@ -11,6 +13,19 @@ export function WeatherConditionIcon({
   weather: WeatherInfo;
   size: number;
 }) {
+  // 맑음 아이콘을 해 모양으로 변경
+  if (SUN_ICON === weather.icon)
+    return (
+      <Image
+        className="m-auto"
+        width={size}
+        height={size}
+        src="/sun-icon-alt2.png"
+        alt={getWeatherDescription(weather)}
+      />
+    );
+
+  // OpenWeatherMap API 제공 Icon 그대로 사용
   if (NOT_GRAYSCALE_ICONS.includes(weather.icon))
     return (
       <Image

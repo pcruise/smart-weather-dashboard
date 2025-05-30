@@ -1,4 +1,4 @@
-import { OpenWeatherMapResponse } from "@/app/api/weather/weather.types";
+import { OpenWeatherMapResponse } from "@/app/api/weather/schema";
 
 export type UserPosition = { lat: number; lon: number };
 

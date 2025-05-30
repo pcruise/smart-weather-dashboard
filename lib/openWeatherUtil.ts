@@ -3,7 +3,7 @@ import {
   DailyWeather,
   HourlyWeather,
   WeatherInfo,
-} from "@/app/api/weather/weather.types";
+} from "@/app/api/weather/schema";
 
 // 데이터의 dt 값 제거 헬퍼 함수
 export const removeDt = (
@@ -17,12 +17,17 @@ export const removeDt = (
 export const getWeatherDescription = (data: WeatherInfo) => {
   switch (data.id) {
     case 801:
-      return "약간 흐림";
+      return "약간 흐림"; // 적은 구름
     case 802:
-      return "흐림";
+      return "흐림"; // 구름
     case 803:
     case 804:
-      return "매우 흐림";
+      return "매우 흐림"; // 튼구름
   }
   return data.description;
 };
+
+// OpenWeather API에서 사용하는 dt 값을 JS Date로 반환
+export function getDateFromOpenweathermapDt(dt: number) {
+  return new Date(dt * 1000);
+}

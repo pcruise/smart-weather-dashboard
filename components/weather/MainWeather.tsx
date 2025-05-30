@@ -1,6 +1,6 @@
-import { OpenWeatherMapResponse } from "@/app/api/weather/weather.types";
-import { getWeatherDescription } from "@/lib/openWeatherUtils";
+import { getWeatherDescription } from "@/lib/openWeatherUtil";
 import { WeatherConditionIcon } from "../common";
+import { OpenWeatherMapResponse } from "@/app/api/weather/schema";
 
 export function MainWeather({
   data,

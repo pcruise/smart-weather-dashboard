@@ -1,3 +1,4 @@
+import { handleError } from "@/lib/errorUtil";
 import { AirPollutionResponseSchema } from "./schema";
 
 // 에어코리아 대기오염정보 조회 API
@@ -15,7 +16,7 @@ export const getAirPollutionInfo = async (stationName: string) => {
   const json = await res.json();
   const parsed = AirPollutionResponseSchema.safeParse(json);
   if (!parsed.success) {
-    console.error(parsed.error.format());
+    handleError(parsed.error.format());
     throw new Error("getMsrstnAcctoRltmMesureDnsty 응답이 잘못된 형식입니다.");
   }
 

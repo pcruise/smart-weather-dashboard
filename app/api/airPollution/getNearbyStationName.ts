@@ -1,13 +1,14 @@
-import { EPSG5174, WGS84 } from "@/lib/proj4Utils";
+import { EPSG5174, WGS84 } from "@/lib/proj4Util";
 import proj4 from "proj4";
 import { NearbyStationResponseSchema } from "./schema";
+import { handleError } from "@/lib/errorUtil";
 
 // 에어코리아 근처 측정소 요청 API
 const API_URL_FIND_NEARBY_STATION =
   "http://apis.data.go.kr/B552584/MsrstnInfoInqireSvc/getNearbyMsrstnList" as const;
 
 // 기상청에서 데이터 획득을 위해 가까운 측정소 이름을 받아오는 API
-export const getNerbyStationName = async (
+export const getNearbyStationName = async (
   lat: number,
   lon: number
 ): Promise<string> => {
@@ -23,7 +24,7 @@ export const getNerbyStationName = async (
   const json = await res.json();
   const parsed = NearbyStationResponseSchema.safeParse(json);
   if (!parsed.success) {
-    console.error(parsed.error.format());
+    handleError(parsed.error.format());
     throw new Error("getNearbyMsrstnList 응답이 잘못된 형식입니다.");
   }
 

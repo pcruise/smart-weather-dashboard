@@ -1,6 +1,6 @@
 import { GoogleGenAI } from "@google/genai";
-import { OpenWeatherMapResponse } from "../weather/weather.types";
-import { removeDt } from "@/lib/openWeatherUtils";
+import { OpenWeatherMapResponse } from "../weather/schema";
+import { removeDt } from "@/lib/openWeatherUtil";
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 const AI_MODEL = "gemini-2.0-flash" as const;
@@ -13,9 +13,9 @@ const OUTFIT_RECOMMENDATION_PROMPT =
   Do not mention tomorrow’s weather unless the current time is nighttime.
   Please avoid mentioning the current temperature, but you may refer to near-future conditions (like later tonight or early tomorrow morning).
   Don't use any emojis.
-  Respond in two or three sentences.
+  Respond in one or two or three sentences.
   Please fill each line with up to 21 full-width Korean characters (excluding spaces and punctuation).
-  Insert a line break character \n only after a period (.) at the end of a sentence.
+  Do not Insert any line break character.
   You may add punctuation marks and spaces for visual balance — they do not count toward the 20-character limit.
   Here is a JSON weather data:` as const;
 
@@ -40,6 +40,6 @@ export const getOutfitSuggestion = async (
 
   if (!resultText) throw new Error("내용을 받아오지 못했습니다.");
 
-  // 가끔 개행문자 오류가 나는 경우가 있어서 제거하고, 연속개행 문자를 하나로 합침
-  return resultText.replaceAll("/", "").replace(/\n{2,}/g, "\n");
+  // 모든 개행 문자를 제거한 후, 마침표 물음표 느낌표 다음에 개행문자 입력 (마지막은 입력하지 않음)
+  return resultText.replace(/\n/g, "").replace(/([.!?])\s*(?=\S)/g, "$1\n");
 };

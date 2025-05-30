@@ -7,6 +7,7 @@
 ## 주요 기능
 
 - **위치 기반 날씨 정보** (OpenWeather API)
+- **위치 기반 미세먼지 정보** (에어코리아 API)
 - **Gemini AI 복장 추천** (Google GenAI 사용)
 - **Redis 캐시** API 비용 및 응답 속도 최적화
 - 반응형 UI 및 Skeleton 기반 로딩 UX
@@ -28,3 +29,10 @@ npm install
 # 개발 서버 실행
 npm run dev
 ```
+
+## .env등을 사용한 환경변수 설정이 필요합니다.
+
+WEATHER_API_KEY: OpenWeatherMap API 키
+AIR_KOREA_API_KEY: 한국환경공단 에어코리아 제공 Open API 키
+GEMINI_API_KEY: Google GenAI API 키
+REDIS_URL: Redis 서버 URL
