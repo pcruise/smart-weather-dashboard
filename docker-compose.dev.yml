@@ -1,4 +1,3 @@
-version: "3.9"
 services:
   smartweather-dev:
     container_name: smartweather-dev
@@ -12,5 +11,7 @@ services:
       - /app/node_modules
     environment:
       - NODE_ENV=development
+    env_file:
+      - .env.dev
     stdin_open: true
     tty: true

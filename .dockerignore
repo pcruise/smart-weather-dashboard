@@ -1,0 +1,8 @@
+# dependencies
+node_modules
+.husky
+.git
+.gitignore
+Dockerfile
+docker-compose.yml
+*.log
