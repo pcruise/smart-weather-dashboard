@@ -1,10 +1,11 @@
 "use client";
-import Skeleton from "react-loading-skeleton";
+
 import "react-loading-skeleton/dist/skeleton.css";
 
 import { TextBoxWithLoader, ValueBoxWithLoader } from "@/components/common";
 import { DailyWeatherBox } from "@/components/weather/DailyWeatherBox";
 import { MainWeather } from "@/components/weather/MainWeather";
+import { getAirPollutionInfoText } from "@/lib/airKoreaUtil";
 import {
   fetchAirPollution,
   fetchOutfitSuggestion,
@@ -12,9 +13,8 @@ import {
   UserPosition,
 } from "@/lib/apiClient";
 import { getHeaderDateText } from "@/lib/dateUtil";
+import { getDateFromOpenweathermapDt, getRainPop } from "@/lib/openWeatherUtil";
 import { useEffect, useState } from "react";
-import { AirPollutionData } from "./api/airPollution/schema";
-import { getDateFromOpenweathermapDt } from "@/lib/openWeatherUtil";
 import { OpenWeatherMapResponse } from "./api/weather/schema";
 
 const DEFAULT_COORDS: UserPosition = {
@@ -146,6 +146,12 @@ export default function WeatherDashboard() {
             isLoading={loadingState.airPollution}
           />
         </div>
+        {/* <div className="bg-white/80 p-6 min-h-30 rounded-xl col-span-2 sm:col-span-4">
+          <HourlyWeatherBox
+            data={weatherData}
+            isLoading={loadingState.weather}
+          />
+        </div> */}
         <div className="bg-white/80 p-6 min-h-30 rounded-xl col-span-2 sm:col-span-4">
           <div className="pb-3">오늘의 복장 추천</div>
           <TextBoxWithLoader
@@ -155,14 +161,10 @@ export default function WeatherDashboard() {
           />
         </div>
         <div className="bg-white/80 h-30 flex flex-col justify-center px-2 rounded-2xl col-span-2 sm:col-span-4">
-          {loadingState.weather || !weatherData ? (
-            <Skeleton height={86} />
-          ) : (
-            <DailyWeatherBox
-              data={weatherData}
-              isLoading={loadingState.weather}
-            />
-          )}
+          <DailyWeatherBox
+            data={weatherData}
+            isLoading={loadingState.weather}
+          />
         </div>
       </section>
     </main>
@@ -174,37 +176,4 @@ const getUserLocation = (): Promise<GeolocationPosition> => {
   return new Promise((resolve, reject) =>
     navigator.geolocation.getCurrentPosition(resolve, reject)
   );
-};
-
-// 미세먼지 데이터 기반으로 표시할 정보 텍스트 생성
-const getAirPollutionInfoText = (data?: AirPollutionData) => {
-  if (!data) return;
-  const { pm10Value: pm10 } = data;
-  return `${getPm10GradeText(parseInt(pm10))} (${pm10}㎍/㎥)`;
-};
-
-// 미세먼지 등급
-function getPm10GradeText(value: number): string {
-  if (value <= 10) return "매우 좋음";
-  if (value <= 30) return "좋음";
-  if (value <= 80) return "보통";
-  if (value <= 150) return "나쁨";
-  return "매우 나쁨";
-}
-
-// 강수확률 구하기, 가까운 3시간동안의 강수확률 평균
-const getRainPop = (weatherData?: OpenWeatherMapResponse): string => {
-  if (!weatherData?.hourly) return "";
-
-  // 제일 가까운 데이터 중 강수확률이 0이 아니라면 그 데이터를 그대로 출력
-  if (weatherData.hourly[0].pop > 0)
-    return (weatherData.hourly[0].pop * 100).toFixed(1) + "%";
-
-  // 그 외의 경우 가까운 12시간 동안 최대 강수확률을 표시
-  const hourlyDatas = weatherData?.hourly.slice(0, 6);
-  const maxPop =
-    hourlyDatas.reduce((acc, cur) => (acc > cur.pop ? acc : cur.pop), 0) * 100;
-
-  if (maxPop > 0) return "~" + maxPop + "%";
-  return "0%";
 };

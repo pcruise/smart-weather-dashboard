@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-
-const API_URL = "https://api.openweathermap.org/data/3.0/onecall";
+import { getOpenWeatherData } from "./getOpenWeatherData";
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
@@ -14,16 +13,7 @@ export async function GET(req: NextRequest) {
     );
   }
 
-  // openweather 3.0 API 호출
-  const res = await fetch(
-    `${API_URL}?lat=${lat}&lon=${lon}&appid=${process.env.WEATHER_API_KEY}&units=metric&lang=kr&exclude=minutely`,
-    {
-      next: {
-        revalidate: 3600, // 캐싱
-      },
-    }
-  );
-
-  const data = await res.json();
+  // API 호출
+  const data = await getOpenWeatherData(lat, lon);
   return NextResponse.json(data);
 }

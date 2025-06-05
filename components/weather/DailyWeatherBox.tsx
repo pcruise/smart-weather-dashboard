@@ -12,11 +12,7 @@ export function DailyWeatherBox({
   isLoading: boolean;
 }) {
   if (isLoading || !data) {
-    return (
-      <div className="flex flex-grow justify-center items-center">
-        <Skeleton circle className="w-36 h-36" />
-      </div>
-    );
+    return <Skeleton height={86} />;
   }
 
   const dailyData = data.daily;

@@ -15,11 +15,15 @@ export const getAirPollutionInfo = async (stationName: string) => {
   // json 파싱 및 응답형식 검증
   const json = await res.json();
   const parsed = AirPollutionResponseSchema.safeParse(json);
+
   if (!parsed.success) {
     handleError(parsed.error.format());
     throw new Error("getMsrstnAcctoRltmMesureDnsty 응답이 잘못된 형식입니다.");
   }
 
-  // 가장 가까운 시간의 정보 리턴
-  return parsed.data.response.body.items[0];
+  // 가장 가까운 시간의 정보 리턴, 최근 정보가 없을 경우 더 이전의 데이터를 사용함
+  /* { dataTime: '2025-06-05 17:00', pm10Value: '-' } */
+  return parsed.data.response.body.items.find(
+    (item) => !Number.isNaN(parseInt(item.pm10Value))
+  );
 };
