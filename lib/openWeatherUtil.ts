@@ -14,7 +14,7 @@ export const removeDt = (
   return rest;
 };
 
-// 구름 설명이 어색한 표현이라 더 친숙한 표현으로 수정하고, 나머지는 그대로 사용
+// API가 제공하는 구름 설명이 어색한 표현이라 더 친숙한 표현으로 수정하고, 나머지는 그대로 사용
 export const getWeatherDescription = (data: WeatherInfo) => {
   switch (data.id) {
     case 801:

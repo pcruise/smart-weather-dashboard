@@ -1,7 +1,7 @@
-import redis from "@/lib/redis";
 import { NextRequest, NextResponse } from "next/server";
 import { OpenWeatherMapResponse } from "../weather/schema";
 import { getOutfitSuggestion } from "./getOutfitSuggestion";
+import { withCache } from "@/lib/cacheUtil";
 
 // 결과값 1시간 캐시, 개발 환경에서는 1분
 const CACHE_TTL =
@@ -19,20 +19,13 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // 캐시키 생성 후 캐시 확인
+  // 캐시키 생성
   const cacheKey = getCacheKey(weatherData);
-  const cached = await redis.get(cacheKey);
-
-  // 캐시 확인 후 캐시데이터가 있을 경우 캐시값 그대로 리턴
-  if (cached) return NextResponse.json(cached);
-
-  // API 호출
-  const suggestionData = await getOutfitSuggestion(weatherData);
-
-  // 결과값 캐싱 및 리턴
-  await redis.set(cacheKey, suggestionData, {
-    expiration: { type: "EX", value: CACHE_TTL },
-  });
+  const suggestionData = await withCache(
+    cacheKey,
+    () => getOutfitSuggestion(weatherData),
+    CACHE_TTL
+  );
 
   return NextResponse.json(suggestionData);
 }

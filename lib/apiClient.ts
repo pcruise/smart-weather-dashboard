@@ -10,10 +10,14 @@ export const fetchWeather = async (coords: UserPosition) => {
 
 // 미세먼지 정보 API 호출 (에어코리아)
 export const fetchAirPollution = async (coords: UserPosition) => {
-  const res = await fetch(
-    `/api/airPollution?lat=${coords.lat}&lon=${coords.lon}`
-  );
-  return res.json();
+  try {
+    const res = await fetch(
+      `/api/airPollution?lat=${coords.lat}&lon=${coords.lon}`
+    );
+    return res.json();
+  } catch (e) {
+    console.log(e);
+  }
 };
 
 // 복장추천 API 호출 (Gemini)

@@ -3,7 +3,7 @@ import { OpenWeatherMapResponse } from "../weather/schema";
 import { removeDt } from "@/lib/openWeatherUtil";
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
-const AI_MODEL = "gemini-2.0-flash" as const;
+const AI_MODEL = "gemini-2.5-flash" as const;
 
 const OUTFIT_RECOMMENDATION_PROMPT =
   `Based on this weather data, tell me in Korean what kind of outfit I should wear. 

@@ -17,7 +17,12 @@ export const getNearbyStationName = async (
 
   // 가장 가까운 측정소 정보 요청
   const res = await fetch(
-    `${API_URL_FIND_NEARBY_STATION}?tmX=${tmX}&tmY=${tmY}&serviceKey=${process.env.AIR_KOREA_API_KEY}&returnType=json`
+    `${API_URL_FIND_NEARBY_STATION}?tmX=${tmX}&tmY=${tmY}&serviceKey=${process.env.AIR_KOREA_API_KEY}&returnType=json`,
+    {
+      next: {
+        revalidate: 3600, // 캐싱
+      },
+    }
   );
 
   // json 파싱 및 응답형식 검증
@@ -28,6 +33,13 @@ export const getNearbyStationName = async (
     throw new Error("getNearbyMsrstnList 응답이 잘못된 형식입니다.");
   }
 
+  const firstItem = parsed.data.response.body.items[0];
+
+  if (!firstItem)
+    throw new Error("getNearbyMsrstnList 응답에 내용을 받아오지 못했습니다.");
+
+  if (firstItem.tm > 100) throw new Error("측정소가 너무 멉니다.");
+
   // 가장 가까운 (첫 번째 아이템) 측정소 이름 반환
-  return parsed.data.response.body.items[0].stationName;
+  return firstItem.stationName;
 };

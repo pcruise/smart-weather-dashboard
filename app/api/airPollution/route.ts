@@ -16,10 +16,17 @@ export async function GET(req: NextRequest) {
     );
   }
 
-  // 좌표를 통해 가장 가까운 측정소 이름 조회
-  const stationName = await getNearbyStationName(Number(lat), Number(lon));
-  // 측정소 이름을 통해 대기오염정보 조회
-  const pollutionData = await getAirPollutionInfo(stationName);
+  try {
+    // 좌표를 통해 가장 가까운 측정소 이름 조회
+    const stationName = await getNearbyStationName(Number(lat), Number(lon));
+    // 측정소 이름을 통해 대기오염정보 조회
+    const pollutionData = await getAirPollutionInfo(stationName);
 
-  return NextResponse.json(pollutionData);
+    return NextResponse.json({ ...pollutionData, stationName });
+  } catch (error) {
+    let message = "Unknown Error";
+    if (error instanceof Error) message = error.message;
+
+    return NextResponse.json({ error: message }, { status: 500 });
+  }
 }

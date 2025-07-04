@@ -2,6 +2,8 @@
 
 패션과 날씨에 무심한 개발자 혹은 옷을 준비하며 날씨를 간단히 확인하려고 하는 사용자를 위해 사용자 현재 위치를 기반으로 실시간 날씨와 AI 기반 복장 추천을 제공하는 날씨 대시보드입니다.
 
+배포 주소: [http:](https://weather-dashboard.ted-kim.xyz/)
+
 <!-- ![screenshot](./public/screenshot.png) 스크린샷 -->
 
 ## 주요 기능
@@ -18,7 +20,7 @@
 - **TypeScript**, **React 19**
 - **Tailwind CSS 4**
 - **Redis** (캐싱 용도)
-- **Google GenAI (Gemini 2.0 Flash)**
+- **Google GenAI (Gemini 2.5 Flash)**
 
 ## 실행 방법
 

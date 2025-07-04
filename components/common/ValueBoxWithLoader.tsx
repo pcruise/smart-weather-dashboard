@@ -4,10 +4,12 @@ import Skeleton from "react-loading-skeleton";
 export function ValueBoxWithLoader({
   value,
   isLoading,
+  styleClassName,
   unit,
 }: {
   value?: number;
   isLoading: boolean;
+  styleClassName?: string;
   unit?: string;
 }) {
   // 로딩 중 스켈레톤 출력 (로딩 끝났을 때 레이아웃 움직임을 최소화 하기 위해 약간의 튜닝 적용)
@@ -21,7 +23,9 @@ export function ValueBoxWithLoader({
 
   // 단위 입력 받은게 있으면 문자열 뒤에 출력
   return (
-    <div className="text-2xl text-left h-8">
+    <div
+      className={`text-2xl h-8${styleClassName ? " " + styleClassName : ""}`}
+    >
       {value}
       {unit || ""}
     </div>

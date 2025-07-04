@@ -7,6 +7,7 @@ export const NearbyStationResponseSchema = z.object({
       items: z
         .array(
           z.object({
+            tm: z.number(),
             stationName: z.string(),
           })
         )
