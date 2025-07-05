@@ -6,10 +6,10 @@ import { TextBoxWithLoader, ValueBoxWithLoader } from "@/components/common";
 import { DailyWeatherBox } from "@/components/weather/DailyWeatherBox";
 import { MainWeather } from "@/components/weather/MainWeather";
 import { getAirPollutionInfoText } from "@/lib/airKoreaUtil";
-import { getHeaderDateText } from "@/lib/dateUtil";
-import { getDateFromOpenweathermapDt, getRainPop } from "@/lib/openWeatherUtil";
+import { getRainPop } from "@/lib/openWeatherUtil";
 import { useGeolocation } from "@/hooks/useGeolocation";
 import { useWeatherDashboardData } from "@/hooks/useWeatherData";
+import { WeatherDashboardHeader } from "./WeatherDashboardHeader";
 
 export default function WeatherDashboard() {
   // 사용자 위치 커스텀 훅
@@ -24,17 +24,10 @@ export default function WeatherDashboard() {
 
   return (
     <main className="flex-grow flex flex-col items-center justify-center w-full min-w-xs sm:w-lg font-semibold">
-      <header className="w-full flex justify-between">
-        <span className="text-xl/10">Weather Dashboard</span>
-        <div className="flex right text-sm/10">
-          {getHeaderDateText(
-            // 초기에는 현재 시간을 기준으로 UI 표기 후 받아온 날씨 데이터 시간을 추가로 표시
-            loadingState.weather && weatherData
-              ? getDateFromOpenweathermapDt(weatherData.current.dt)
-              : new Date()
-          )}
-        </div>
-      </header>
+      <WeatherDashboardHeader
+        loadingState={loadingState}
+        weatherData={weatherData}
+      />
       <section className="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full">
         <div className="flex flex-col bg-white/80 min-h-60 rounded-xl p-6 row-span-2 col-span-2 sm:col-span-2">
           <div className="absolute">날씨</div>

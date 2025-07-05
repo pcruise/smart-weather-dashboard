@@ -2,7 +2,7 @@ import { WeatherInfo } from "@/app/api/weather/schema";
 import { getWeatherDescription } from "@/lib/openWeatherUtil";
 import Image from "next/image";
 
-const NOT_GRAYSCALE_ICONS = ["01n", "13d", "13n", "50d", "50n"];
+const NOT_GRAYSCALE_ICONS = ["01n", "13d", "13n", "50d", "50n"]; // 맑음(밤), 눈, 안개 아이콘
 const SUN_ICON = "01d";
 
 // OpenWeatherMap API 날씨 아이콘 출력
@@ -25,7 +25,7 @@ export function WeatherConditionIcon({
       />
     );
 
-  // OpenWeatherMap API 제공 Icon 그대로 사용
+  // OpenWeatherMap API 제공 Icon 그대로 사용하는 항목들 (NOT_GRAYSCALE_ICONS 참조)
   if (NOT_GRAYSCALE_ICONS.includes(weather.icon))
     return (
       <Image
@@ -37,7 +37,7 @@ export function WeatherConditionIcon({
       />
     );
 
-  // 구름 아이콘이 너무 흰색이라 안보이는 문제가 있어서 필터 추가
+  // 구름 아이콘이 너무 흰색이라 안보이는 문제가 있어서 어둡게 하는 필터 추가
   return (
     <Image
       className="m-auto brightness-90"

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getNearbyStationName } from "./getNearbyStationName";
 import { getAirPollutionInfo } from "./getAirPollutionInfo";
+import { AirPollutionData } from "./schema";
 
 // lat, lon 좌표를 받아서 해당 좌표에 가장 가까운 대기 품질 측정소의 측정값을 가져옵니다.
 export async function GET(req: NextRequest) {
@@ -22,7 +23,7 @@ export async function GET(req: NextRequest) {
     // 측정소 이름을 통해 대기오염정보 조회
     const pollutionData = await getAirPollutionInfo(stationName);
 
-    return NextResponse.json({ ...pollutionData, stationName });
+    return NextResponse.json<AirPollutionData>(pollutionData);
   } catch (error) {
     let message = "Unknown Error";
     if (error instanceof Error) message = error.message;

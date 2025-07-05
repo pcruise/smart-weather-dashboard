@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getOpenWeatherData } from "./getOpenWeatherData";
+import { OpenWeatherMapResponse } from "./schema";
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
@@ -15,5 +16,5 @@ export async function GET(req: NextRequest) {
 
   // API 호출
   const data = await getOpenWeatherData(lat, lon);
-  return NextResponse.json(data);
+  return NextResponse.json<OpenWeatherMapResponse>(data);
 }

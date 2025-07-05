@@ -16,8 +16,8 @@
 
 ## 기술 스택
 
-- **Next.js 15** (App Router)
-- **TypeScript**, **React 19**
+- **React 19**, **Next.js 15** (App Router)
+- **TypeScript**
 - **Tailwind CSS 4**
 - **Redis** (캐싱 용도)
 - **Google GenAI (Gemini 2.5 Flash)**
@@ -32,7 +32,7 @@ npm install
 npm run dev
 ```
 
-## .env등을 사용한 환경변수 설정이 필요합니다.
+## .env등을 사용한 환경변수 설정이 필요합니다. (.env.example 참고)
 
 WEATHER_API_KEY: OpenWeatherMap API 키
 AIR_KOREA_API_KEY: 한국환경공단 에어코리아 제공 Open API 키

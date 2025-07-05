@@ -1,11 +1,14 @@
 import { handleError } from "@/lib/errorUtil";
-import { OpenWeatherMapResponseSchema } from "./schema";
+import { OpenWeatherMapResponse, OpenWeatherMapResponseSchema } from "./schema";
 
 // OpenWeatherMap 날씨 조회 API
 const API_URL = "https://api.openweathermap.org/data/3.0/onecall";
 
 // 측정소 이름을 통해 대기오염 정보를 호출
-export const getOpenWeatherData = async (lat: string, lon: string) => {
+export const getOpenWeatherData = async (
+  lat: string,
+  lon: string
+): Promise<OpenWeatherMapResponse> => {
   // openweather 3.0 API 호출
   const res = await fetch(
     `${API_URL}?lat=${lat}&lon=${lon}&appid=${process.env.WEATHER_API_KEY}&units=metric&lang=kr&exclude=minutely`,
