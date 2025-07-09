@@ -1,24 +1,43 @@
 import { getWeatherDescription } from "@/lib/openWeatherUtil";
 import { WeatherConditionIcon } from "../common";
 import { OpenWeatherMapResponse } from "@/app/api/weather/schema";
+import { DashboardItemWrapper } from "../common/DashboardItemWrapper";
 
-export function MainWeather({
-  data,
+export function MainWeatherBox({
+  weatherData,
+  isLoading,
+  className,
+}: {
+  weatherData?: OpenWeatherMapResponse;
+  isLoading: boolean;
+  className: string;
+}) {
+  return (
+    <DashboardItemWrapper className={className}>
+      <div className="absolute">날씨</div>
+      <div className="flex flex-grow justify-center items-center">
+        <MainWeatherContent weatherData={weatherData} isLoading={isLoading} />
+      </div>
+    </DashboardItemWrapper>
+  );
+}
+
+const MainWeatherContent = ({
+  weatherData,
   isLoading,
 }: {
-  data?: OpenWeatherMapResponse;
+  weatherData?: OpenWeatherMapResponse;
   isLoading: boolean;
-}) {
+}) => {
   // 로딩중일 때 빈 박스 출력
-  if (isLoading || !data) {
+  if (isLoading || !weatherData) {
     return <div className="flex"></div>;
   }
 
-  const currentData = data.current;
+  const currentData = weatherData.current;
   const currentWeatherDescription = getWeatherDescription(
     currentData.weather[0]
   );
-
   return (
     <div className="flex flex-col items-center">
       <div className="-mb-5">
@@ -31,4 +50,4 @@ export function MainWeather({
       </div>
     </div>
   );
-}
+};

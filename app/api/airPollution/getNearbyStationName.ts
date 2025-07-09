@@ -7,6 +7,13 @@ import { handleError } from "@/lib/errorUtil";
 const API_URL_FIND_NEARBY_STATION =
   "http://apis.data.go.kr/B552584/MsrstnInfoInqireSvc/getNearbyMsrstnList" as const;
 
+// 에러 메세지
+const ERROR_MSG_PARSE_ERROR =
+  "getNearbyMsrstnList 응답이 잘못된 형식입니다." as const;
+const ERROR_MSG_ITEM_EMPTY =
+  "getNearbyMsrstnList 응답에 내용을 받아오지 못했습니다." as const;
+const ERROR_MSG_TOO_FAR = "측정 가능한 측정소가 너무 멉니다." as const;
+
 // 기상청에서 데이터 획득을 위해 가까운 측정소 이름을 받아오는 API
 export const getNearbyStationName = async (
   lat: number,
@@ -28,17 +35,19 @@ export const getNearbyStationName = async (
   // json 파싱 및 응답형식 검증
   const json = await res.json();
   const parsed = NearbyStationResponseSchema.safeParse(json);
+
+  // 파싱 에러처리
   if (!parsed.success) {
     handleError(parsed.error.format());
-    throw new Error("getNearbyMsrstnList 응답이 잘못된 형식입니다.");
+    throw new Error(ERROR_MSG_PARSE_ERROR);
   }
 
   const firstItem = parsed.data.response.body.items[0];
 
-  if (!firstItem)
-    throw new Error("getNearbyMsrstnList 응답에 내용을 받아오지 못했습니다.");
-
-  if (firstItem.tm > 100) throw new Error("측정소가 너무 멉니다.");
+  // 정보 획득 실패 에러처리
+  if (!firstItem) throw new Error(ERROR_MSG_ITEM_EMPTY);
+  // 측정소가 너무 멀 때 에러처리
+  if (firstItem.tm > 100) throw new Error(ERROR_MSG_TOO_FAR);
 
   // 가장 가까운 (첫 번째 아이템) 측정소 이름 반환
   return firstItem.stationName;

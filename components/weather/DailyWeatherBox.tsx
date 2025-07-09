@@ -3,19 +3,35 @@ import Skeleton from "react-loading-skeleton";
 import { WeatherConditionIcon } from "../common";
 import { getDateFromOpenweathermapDt } from "@/lib/openWeatherUtil";
 import { DailyWeather, OpenWeatherMapResponse } from "@/app/api/weather/schema";
+import { DashboardItemWrapper } from "../common/DashboardItemWrapper";
 
 export function DailyWeatherBox({
-  data,
+  weatherData,
+  isLoading,
+  className,
+}: {
+  weatherData?: OpenWeatherMapResponse;
+  isLoading: boolean;
+  className: string;
+}) {
+  return (
+    <DashboardItemWrapper className={className}>
+      <DailyWeatherContent weatherData={weatherData} isLoading={isLoading} />
+    </DashboardItemWrapper>
+  );
+}
+const DailyWeatherContent = ({
+  weatherData,
   isLoading,
 }: {
-  data?: OpenWeatherMapResponse;
+  weatherData?: OpenWeatherMapResponse;
   isLoading: boolean;
-}) {
-  if (isLoading || !data) {
+}) => {
+  if (isLoading || !weatherData) {
     return <Skeleton height={86} />;
   }
 
-  const dailyData = data.daily;
+  const dailyData = weatherData.daily;
 
   return (
     <div className="grid grid-cols-7 justify-between divide-x divide-gray-200">
@@ -26,9 +42,9 @@ export function DailyWeatherBox({
       })}
     </div>
   );
-}
+};
 
-function DailyWeatherItem({ data }: { data: DailyWeather }) {
+const DailyWeatherItem = ({ data }: { data: DailyWeather }) => {
   return (
     <div className="flex flex-col">
       <div className="text-center">
@@ -40,4 +56,4 @@ function DailyWeatherItem({ data }: { data: DailyWeather }) {
       <div className="text-sm text-center">{data.temp.day.toFixed(0)}°C</div>
     </div>
   );
-}
+};
