@@ -7,7 +7,7 @@ export function ValueBoxWithLoader({
   styleClassName,
   unit,
 }: {
-  value?: number;
+  value?: number | null;
   isLoading: boolean;
   styleClassName?: string;
   unit?: string;
@@ -21,13 +21,14 @@ export function ValueBoxWithLoader({
     );
   }
 
+  const text = value ? value + (unit || "") : "-";
+
   // 단위 입력 받은게 있으면 문자열 뒤에 출력
   return (
     <div
       className={`text-2xl h-8${styleClassName ? " " + styleClassName : ""}`}
     >
-      {value}
-      {unit || ""}
+      {text}
     </div>
   );
 }

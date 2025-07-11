@@ -6,8 +6,8 @@ import {
   fetchWeather,
   UserPosition,
 } from "@/lib/apiClient";
+import { isWeatherDataError, WeatherDataError } from "@/lib/errorUtil";
 import { useEffect, useState } from "react";
-
 export type WeatherLoadingState = {
   weather: boolean;
   airPollution: boolean;
@@ -23,9 +23,13 @@ export const useWeatherDashboardData = (userPosition?: UserPosition) => {
   });
 
   // 날씨 데이터
-  const [weatherData, setWeatherData] = useState<OpenWeatherMapResponse>();
+  const [weatherData, setWeatherData] = useState<
+    OpenWeatherMapResponse | WeatherDataError
+  >();
   // 미세먼지 데이터
-  const [airPollutionData, setAirPollutionData] = useState<AirPollutionData>();
+  const [airPollutionData, setAirPollutionData] = useState<
+    AirPollutionData | WeatherDataError
+  >();
   // 복장 추천 데이터
   const [outfitSuggestionMessage, setOutfitSuggestionMessage] =
     useState<string>();
@@ -44,6 +48,7 @@ export const useWeatherDashboardData = (userPosition?: UserPosition) => {
       .catch((e) => {
         // TODO: 에러 메세지 출력
         console.log("fetch weather error:", e);
+        setWeatherData({ error: e });
       });
 
     // 미세먼지 데이터 fetch
@@ -53,14 +58,21 @@ export const useWeatherDashboardData = (userPosition?: UserPosition) => {
         setLoadingState((prev) => ({ ...prev, airPollution: false }));
       })
       .catch((e) => {
-        // TODO: 에러 메세지 출력
-        console.log("fetch airpollution error:", e);
+        if (e instanceof Error) {
+          setAirPollutionData({ error: e.message });
+        } else {
+          setAirPollutionData({ error: "데이터를 받아오지 못했습니다." });
+        }
+      })
+      .finally(() => {
+        setLoadingState((prev) => ({ ...prev, airPollution: false }));
       });
   }, [userPosition]);
 
   // 날씨 데이터 받아오기가 끝난 후 복장 추천 API 호출
   useEffect(() => {
-    if (loadingState.weather || !weatherData) return;
+    if (loadingState.weather || typeof weatherData === "undefined") return;
+    if (isWeatherDataError(weatherData)) return;
 
     // 복장 추천 데이터 fetch
     fetchOutfitSuggestion(weatherData)
@@ -68,7 +80,6 @@ export const useWeatherDashboardData = (userPosition?: UserPosition) => {
         if (!res) {
           throw new Error("Invalid data");
         }
-
         setOutfitSuggestionMessage(res);
       })
       .finally(() => {

@@ -30,10 +30,11 @@ export default function WeatherDashboard() {
         weatherData={weatherData}
       />
       <section className="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full">
+        {/* span 2x2 */}
         <MainWeatherBox
           weatherData={weatherData}
           isLoading={loadingState.weather}
-          className="min-h-60 row-span-2 col-span-2 sm:col-span-2"
+          className="min-h-60 row-span-2 col-span-2"
         />
         <HumidityBox
           weatherData={weatherData}
@@ -43,16 +44,19 @@ export default function WeatherDashboard() {
           weatherData={weatherData}
           isLoading={loadingState.weather}
         />
+        {/* span 2x1 */}
         <AirPollutionBox
           airPollutionData={airPollutionData}
           isLoading={loadingState.airPollution}
           className="col-span-2"
         />
+        {/* span 4x1 (한 줄)*/}
         <OutfitSuggetionBox
           outfitSuggestionMessage={outfitSuggestionMessage}
           isLoading={loadingState.outfitSuggestion}
           className="col-span-2 sm:col-span-4"
         />
+        {/* span 4x1 (한 줄) */}
         <DailyWeatherBox
           weatherData={weatherData}
           isLoading={loadingState.weather}

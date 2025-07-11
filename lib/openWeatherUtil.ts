@@ -5,6 +5,7 @@ import {
   OpenWeatherMapResponse,
   WeatherInfo,
 } from "@/app/api/weather/schema";
+import { isWeatherDataError, WeatherDataError } from "./errorUtil";
 
 // 데이터의 dt 값 제거 헬퍼 함수
 export const removeDt = (
@@ -34,7 +35,10 @@ export function getDateFromOpenweathermapDt(dt: number) {
 }
 
 // 강수확률 구하기, 가까운 3시간동안의 강수확률 평균
-export const getRainPop = (weatherData?: OpenWeatherMapResponse): string => {
+export const getRainPop = (
+  weatherData?: OpenWeatherMapResponse | WeatherDataError
+): string => {
+  if (isWeatherDataError(weatherData)) return "";
   if (!weatherData?.hourly) return "";
 
   // 제일 가까운 데이터 중 강수확률이 0이 아니라면 그 데이터를 그대로 출력

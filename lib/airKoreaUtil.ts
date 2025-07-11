@@ -1,10 +1,22 @@
-import { AirPollutionData } from "@/app/api/airPollution/schema";
+import {
+  AirPollutionData,
+  isAirPollutionData,
+} from "@/app/api/airPollution/schema";
+import { isWeatherDataError, WeatherDataError } from "./errorUtil";
 
 // 미세먼지 데이터 기반으로 표시할 정보 텍스트 생성
-export const getAirPollutionInfoText = (data?: AirPollutionData) => {
-  if (!data) return;
-  const { pm10Value: pm10 } = data;
-  return `${getPm10GradeText(parseInt(pm10))} (${pm10}㎍/㎥)`;
+export const getAirPollutionInfoText = (
+  data?: AirPollutionData | WeatherDataError
+) => {
+  if (isWeatherDataError(data)) {
+    return `⚠️ ${data.error}`;
+  }
+  if (isAirPollutionData(data)) {
+    const { pm10Value: pm10 } = data;
+    return `${getPm10GradeText(parseInt(pm10))} (${pm10}㎍/㎥)`;
+  }
+
+  return;
 };
 
 // 미세먼지 등급

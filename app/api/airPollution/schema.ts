@@ -31,6 +31,17 @@ export const AirPollutionResponseSchema = z.object({
   }),
 });
 
+export const isAirPollutionData = (data: unknown): data is AirPollutionData => {
+  return (
+    typeof data === "object" &&
+    data !== null &&
+    "pm10Value" in data &&
+    "dataTime" in data &&
+    typeof data.pm10Value === "string" &&
+    typeof data.dataTime === "string"
+  );
+};
+
 export type AirPollutionData = z.infer<typeof AirPollutionDataSchema>;
 export type AirPollutionResponse = z.infer<typeof AirPollutionResponseSchema>;
 export type StationResponse = z.infer<typeof NearbyStationResponseSchema>;

@@ -2,13 +2,14 @@ import { getWeatherDescription } from "@/lib/openWeatherUtil";
 import { WeatherConditionIcon } from "../common";
 import { OpenWeatherMapResponse } from "@/app/api/weather/schema";
 import { DashboardItemWrapper } from "../common/DashboardItemWrapper";
+import { isWeatherDataError, WeatherDataError } from "@/lib/errorUtil";
 
 export function MainWeatherBox({
   weatherData,
   isLoading,
   className,
 }: {
-  weatherData?: OpenWeatherMapResponse;
+  weatherData?: OpenWeatherMapResponse | WeatherDataError;
   isLoading: boolean;
   className: string;
 }) {
@@ -26,11 +27,11 @@ const MainWeatherContent = ({
   weatherData,
   isLoading,
 }: {
-  weatherData?: OpenWeatherMapResponse;
+  weatherData?: OpenWeatherMapResponse | WeatherDataError;
   isLoading: boolean;
 }) => {
   // 로딩중일 때 빈 박스 출력
-  if (isLoading || !weatherData) {
+  if (isLoading || !weatherData || isWeatherDataError(weatherData)) {
     return <div className="flex"></div>;
   }
 

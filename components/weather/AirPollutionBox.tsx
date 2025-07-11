@@ -2,13 +2,14 @@ import { AirPollutionData } from "@/app/api/airPollution/schema";
 import { TextBoxWithLoader } from "../common";
 import { getAirPollutionInfoText } from "@/lib/airKoreaUtil";
 import { DashboardItemWrapper } from "../common/DashboardItemWrapper";
+import { WeatherDataError } from "@/lib/errorUtil";
 
 export function AirPollutionBox({
   airPollutionData,
   isLoading,
   className,
 }: {
-  airPollutionData?: AirPollutionData;
+  airPollutionData?: AirPollutionData | WeatherDataError;
   isLoading: boolean;
   className: string;
 }) {

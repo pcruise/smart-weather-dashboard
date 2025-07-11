@@ -4,13 +4,14 @@ import { WeatherConditionIcon } from "../common";
 import { getDateFromOpenweathermapDt } from "@/lib/openWeatherUtil";
 import { DailyWeather, OpenWeatherMapResponse } from "@/app/api/weather/schema";
 import { DashboardItemWrapper } from "../common/DashboardItemWrapper";
+import { isWeatherDataError, WeatherDataError } from "@/lib/errorUtil";
 
 export function DailyWeatherBox({
   weatherData,
   isLoading,
   className,
 }: {
-  weatherData?: OpenWeatherMapResponse;
+  weatherData?: OpenWeatherMapResponse | WeatherDataError;
   isLoading: boolean;
   className: string;
 }) {
@@ -24,11 +25,15 @@ const DailyWeatherContent = ({
   weatherData,
   isLoading,
 }: {
-  weatherData?: OpenWeatherMapResponse;
+  weatherData?: OpenWeatherMapResponse | WeatherDataError;
   isLoading: boolean;
 }) => {
   if (isLoading || !weatherData) {
     return <Skeleton height={86} />;
+  }
+
+  if (isWeatherDataError(weatherData)) {
+    return <div>날씨 정보를 받아오지 못했습니다.</div>;
   }
 
   const dailyData = weatherData.daily;

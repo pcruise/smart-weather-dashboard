@@ -9,10 +9,11 @@ const API_URL_FIND_NEARBY_STATION =
 
 // 에러 메세지
 const ERROR_MSG_PARSE_ERROR =
-  "getNearbyMsrstnList 응답이 잘못된 형식입니다." as const;
+  "맞는 형식의 측정소 정보를 받아오지 못했습니다." as const;
 const ERROR_MSG_ITEM_EMPTY =
-  "getNearbyMsrstnList 응답에 내용을 받아오지 못했습니다." as const;
-const ERROR_MSG_TOO_FAR = "측정 가능한 측정소가 너무 멉니다." as const;
+  "미세먼지 측정소 정보를 받아오지 못했습니다." as const;
+const ERROR_MSG_TOO_FAR =
+  "근처에 미세먼지 측정소가 없어 정보를 제공할 수 없습니다." as const;
 
 // 기상청에서 데이터 획득을 위해 가까운 측정소 이름을 받아오는 API
 export const getNearbyStationName = async (
