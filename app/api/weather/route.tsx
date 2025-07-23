@@ -2,8 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getOpenWeatherData } from "./getOpenWeatherData";
 import { OpenWeatherMapResponse } from "./schema";
 import { routeErrorHandler } from "@/lib/routeUtil";
-
-const ERROR_MSG_INPUT_ERROR = "위치 정보에 문제가 있습니다." as const;
+import { ERROR_MESSAGES } from "@/lib/constants";
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
@@ -11,7 +10,7 @@ export async function GET(req: NextRequest) {
   const lon = searchParams.get("lon");
 
   if (!lat || !lon) {
-    return NextResponse.json({ error: ERROR_MSG_INPUT_ERROR }, { status: 400 });
+    return NextResponse.json({ error: ERROR_MESSAGES.LOCATION_INPUT_ERROR }, { status: 400 });
   }
 
   try {

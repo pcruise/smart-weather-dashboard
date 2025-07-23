@@ -3,9 +3,7 @@ import { getNearbyStationName } from "./getNearbyStationName";
 import { getAirPollutionInfo } from "./getAirPollutionInfo";
 import { AirPollutionData } from "./schema";
 import { routeErrorHandler } from "@/lib/routeUtil";
-
-// 에러 메세지
-const ERROR_MSG_INPUT_ERROR = "입력 위치 정보에 문제가 있습니다." as const;
+import { ERROR_MESSAGES } from "@/lib/constants";
 
 // lat, lon 좌표를 받아서 해당 좌표에 가장 가까운 대기 품질 측정소의 측정값을 가져옵니다.
 export async function GET(req: NextRequest) {
@@ -15,7 +13,7 @@ export async function GET(req: NextRequest) {
 
   // 값이 없거나 NaN 확인
   if (!lat || !lon || isNaN(lat) || isNaN(lon)) {
-    return NextResponse.json({ error: ERROR_MSG_INPUT_ERROR }, { status: 400 });
+    return NextResponse.json({ error: ERROR_MESSAGES.LOCATION_INPUT_ERROR }, { status: 400 });
   }
 
   try {

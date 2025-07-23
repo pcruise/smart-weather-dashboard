@@ -41,9 +41,12 @@ export const getRainPop = (
   if (isWeatherDataError(weatherData)) return "";
   if (!weatherData?.hourly) return "";
 
+  const currentPop = weatherData.hourly[0].pop;
+
   // 제일 가까운 데이터 중 강수확률이 0이 아니라면 그 데이터를 그대로 출력
-  if (weatherData.hourly[0].pop > 0)
-    return (weatherData.hourly[0].pop * 100).toFixed(1) + "%";
+  if (currentPop > 0)
+    if (currentPop >= 100) return "100%";
+    else return (weatherData.hourly[0].pop * 100).toFixed(1) + "%";
 
   // 그 외의 경우 가까운 12시간 동안 최대 강수확률을 표시
   const hourlyDatas = weatherData?.hourly.slice(0, 6);

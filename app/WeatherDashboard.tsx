@@ -6,7 +6,7 @@ import { AirPollutionBox } from "@/components/weather/AirPollutionBox";
 import { DailyWeatherBox } from "@/components/weather/DailyWeatherBox";
 import { HumidityBox } from "@/components/weather/HumidityBox";
 import { MainWeatherBox } from "@/components/weather/MainWeatherBox";
-import { OutfitSuggetionBox } from "@/components/weather/OutfitSuggetionBox";
+import { OutfitSuggestionBox } from "@/components/weather/OutfitSuggestionBox";
 import { RainPopBox } from "@/components/weather/RainPopBox";
 import { useGeolocation } from "@/hooks/useGeolocation";
 import { useWeatherDashboardData } from "@/hooks/useWeatherData";
@@ -51,7 +51,7 @@ export default function WeatherDashboard() {
           className="col-span-2"
         />
         {/* span 4x1 (한 줄)*/}
-        <OutfitSuggetionBox
+        <OutfitSuggestionBox
           outfitSuggestionMessage={outfitSuggestionMessage}
           isLoading={loadingState.outfitSuggestion}
           className="col-span-2 sm:col-span-4"

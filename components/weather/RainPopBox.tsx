@@ -2,7 +2,7 @@ import { OpenWeatherMapResponse } from "@/app/api/weather/schema";
 import { TextBoxWithLoader } from "../common";
 import { getRainPop } from "@/lib/openWeatherUtil";
 import { DashboardItemWrapper } from "../common/DashboardItemWrapper";
-import { WeatherDataError } from "@/hooks/useWeatherData";
+import { WeatherDataError } from "@/lib/errorUtil";
 
 export function RainPopBox({
   weatherData,

@@ -1,12 +1,10 @@
 import { GoogleGenAI } from "@google/genai";
 import { OpenWeatherMapResponse } from "../weather/schema";
 import { removeDt } from "@/lib/openWeatherUtil";
+import { ERROR_MESSAGES } from "@/lib/constants";
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 const AI_MODEL = "gemini-2.5-flash-lite-preview-06-17" as const;
-
-// 에러 메세지
-const ERROR_MSG_ITEM_EMPTY = "의상 추천 결과를 받아오지 못했습니다.";
 
 const OUTFIT_RECOMMENDATION_PROMPT =
   `Based on this weather data, tell me in Korean what kind of outfit I should wear. 
@@ -40,7 +38,7 @@ export const getOutfitSuggestion = async (
   });
 
   const resultText = aiContentResponse.text;
-  if (!resultText) throw new Error(ERROR_MSG_ITEM_EMPTY);
+  if (!resultText) throw new Error(ERROR_MESSAGES.OUTFIT_SUGGESTION_EMPTY);
 
   // 모든 개행 문자를 제거한 후, 마침표 물음표 느낌표 다음에 개행문자 입력 (마지막은 입력하지 않음)
   return resultText.replace(/\n/g, "").replace(/([.!?])\s*(?=\S)/g, "$1\n");

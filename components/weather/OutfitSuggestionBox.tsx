@@ -1,7 +1,7 @@
 import { TextBoxWithLoader } from "../common";
 import { DashboardItemWrapper } from "../common/DashboardItemWrapper";
 
-export function OutfitSuggetionBox({
+export function OutfitSuggestionBox({
   outfitSuggestionMessage,
   isLoading,
   className,

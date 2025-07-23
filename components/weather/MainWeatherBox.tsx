@@ -45,8 +45,10 @@ const MainWeatherContent = ({
         <WeatherConditionIcon weather={currentData.weather[0]} size={150} />
       </div>
       <div className="text-3xl">{currentData.temp.toFixed(1)}°C</div>
-      <div className="text-sm text-gray-500">{currentWeatherDescription}</div>
-      <div className="text-sm text-gray-500">
+      <div className="text-sm text-gray-500 dark:text-gray-400">
+        {currentWeatherDescription}
+      </div>
+      <div className="text-sm text-gray-500 dark:text-gray-400">
         체감온도 {currentData.feels_like.toFixed(1)}°C
       </div>
     </div>

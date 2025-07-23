@@ -46,9 +46,7 @@ export const useWeatherDashboardData = (userPosition?: UserPosition) => {
         setLoadingState((prev) => ({ ...prev, weather: false }));
       })
       .catch((e) => {
-        // TODO: 에러 메세지 출력
-        console.log("fetch weather error:", e);
-        setWeatherData({ error: e });
+        setWeatherData({ error: e.message });
       });
 
     // 미세먼지 데이터 fetch
@@ -61,7 +59,7 @@ export const useWeatherDashboardData = (userPosition?: UserPosition) => {
         if (e instanceof Error) {
           setAirPollutionData({ error: e.message });
         } else {
-          setAirPollutionData({ error: "데이터를 받아오지 못했습니다." });
+          setAirPollutionData({ error: "응답을 받아오지 못했습니다." });
         }
       })
       .finally(() => {
@@ -78,9 +76,12 @@ export const useWeatherDashboardData = (userPosition?: UserPosition) => {
     fetchOutfitSuggestion(weatherData)
       .then((res) => {
         if (!res) {
-          throw new Error("Invalid data");
+          throw new Error("유효한 응답을 받아오지 못했습니다.");
         }
         setOutfitSuggestionMessage(res);
+      })
+      .catch((e) => {
+        setOutfitSuggestionMessage(`⚠️${e.message}`);
       })
       .finally(() => {
         setLoadingState((prev) => ({ ...prev, outfitSuggestion: false }));
