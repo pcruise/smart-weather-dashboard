@@ -1,5 +1,6 @@
 import { AirPollutionData } from "@/app/api/airPollution/schema";
 import { OpenWeatherMapResponse } from "@/app/api/weather/schema";
+import { ERROR_MESSAGES } from "./constants";
 
 export type UserPosition = { lat: number; lon: number };
 
@@ -8,7 +9,7 @@ async function fetchFn<T>(url: string, options?: RequestInit): Promise<T> {
   const res = await fetch(url, options);
   const json = await res.json();
   if (!res.ok) {
-    const errorMessage = json.error || "오류가 발생하였습니다.";
+    const errorMessage = json.error || ERROR_MESSAGES.UNKNOWN;
     throw new Error(errorMessage);
   }
   return json;

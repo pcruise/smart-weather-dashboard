@@ -1,5 +1,4 @@
-import { EPSG5174, WGS84 } from "@/lib/proj4Util";
-import proj4 from "proj4";
+import { convertToTM } from "@/lib/proj4Util";
 import { NearbyStationResponseSchema } from "./schema";
 import { handleError } from "@/lib/errorUtil";
 import { ERROR_MESSAGES } from "@/lib/constants";
@@ -14,7 +13,7 @@ export const getNearbyStationName = async (
   lon: number
 ): Promise<string> => {
   // 위도/경도 -> TM 좌표계 변환
-  const [tmX, tmY] = proj4(WGS84, EPSG5174, [lon, lat]);
+  const [tmX, tmY] = convertToTM(lat, lon);
 
   // 가장 가까운 측정소 정보 요청
   const res = await fetch(
@@ -41,7 +40,8 @@ export const getNearbyStationName = async (
   // 정보 획득 실패 에러처리
   if (!firstItem) throw new Error(ERROR_MESSAGES.ITEM_EMPTY);
   // 측정소가 너무 멀 때 에러처리
-  if (firstItem.tm > 100) throw new Error(ERROR_MESSAGES.AIR_POLLUTION_STATION_NOT_FOUND);
+  if (firstItem.tm > 100)
+    throw new Error(ERROR_MESSAGES.AIR_POLLUTION_STATION_NOT_FOUND);
 
   // 가장 가까운 (첫 번째 아이템) 측정소 이름 반환
   return firstItem.stationName;

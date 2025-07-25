@@ -39,20 +39,21 @@ export const getRainPop = (
   weatherData?: OpenWeatherMapResponse | WeatherDataError
 ): string => {
   if (isWeatherDataError(weatherData)) return "";
-  if (!weatherData?.hourly) return "";
+  if (!weatherData?.hourly || weatherData.hourly.length === 0) return "";
 
   const currentPop = weatherData.hourly[0].pop;
 
   // 제일 가까운 데이터 중 강수확률이 0이 아니라면 그 데이터를 그대로 출력
-  if (currentPop > 0)
-    if (currentPop >= 100) return "100%";
-    else return (weatherData.hourly[0].pop * 100).toFixed(1) + "%";
+  if (currentPop > 0) {
+    if (currentPop >= 1) return "100%"; // pop은 0~1 사이의 값이므로 1 이상이면 100%
+    return (currentPop * 100).toFixed(0) + "%"; // 소수점 제거
+  }
 
-  // 그 외의 경우 가까운 12시간 동안 최대 강수확률을 표시
-  const hourlyDatas = weatherData?.hourly.slice(0, 6);
+  // 그 외의 경우 가까운 6시간 동안 최대 강수확률을 표시
+  const hourlyDatas = weatherData.hourly.slice(0, 6);
   const maxPop =
     hourlyDatas.reduce((acc, cur) => (acc > cur.pop ? acc : cur.pop), 0) * 100;
 
-  if (maxPop > 0) return "~" + maxPop + "%";
+  if (maxPop > 0) return "~" + maxPop.toFixed(0) + "%"; // 소수점 제거
   return "0%";
 };
