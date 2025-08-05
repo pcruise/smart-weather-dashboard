@@ -14,7 +14,7 @@ export function OutfitSuggestionBox({
     <DashboardItemWrapper className={className}>
       <div className="pb-3">오늘의 복장 추천</div>
       <TextBoxWithLoader
-        skeletonLines={4}
+        skeletonLines={3}
         value={outfitSuggestionMessage}
         isLoading={isLoading}
       />
